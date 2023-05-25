@@ -8,6 +8,7 @@ class Department(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name='directed_department',
+        blank=True,
     )
 
     def __str__(self):
@@ -17,7 +18,7 @@ class Department(models.Model):
 class Employee(models.Model):
     name = models.CharField(max_length=100)
     second_name = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='employee_photos')
+    photo = models.ImageField(upload_to='employee_photos', null=True, blank=True)
     position = models.CharField(max_length=50)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
     age = models.PositiveIntegerField()
