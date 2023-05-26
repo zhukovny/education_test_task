@@ -17,7 +17,6 @@ class Department(models.Model):
 
 class Employee(models.Model):
     name = models.CharField(max_length=100)
-    second_name = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='employee_photos', null=True, blank=True)
     position = models.CharField(max_length=50)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
