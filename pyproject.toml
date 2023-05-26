@@ -10,6 +10,9 @@ packages = []
 python = "^3.10"
 Django = "^4.2.1"
 pillow = "^9.5.0"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.3"
+django-filter = "^23.2"
 
 
 [build-system]
