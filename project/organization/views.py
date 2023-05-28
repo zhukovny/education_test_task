@@ -31,7 +31,7 @@ class EmployeeListViewSet(viewsets.ModelViewSet):
             OpenApiParameter(name='department_id', description='Filter by department_id', required=False, type=int),
         ],
     )
-    def list(self, request, *args, **kwargs):
+    def list(self, request: Request, *args, **kwargs) -> Response:
         return super(EmployeeListViewSet, self).list(request, args, kwargs)
 
     @extend_schema(

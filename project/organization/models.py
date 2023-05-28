@@ -15,7 +15,7 @@ class Department(models.Model):
         blank=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     def get_employees_count(self) -> int:
@@ -49,5 +49,5 @@ class Employee(models.Model):
 
         return Employee.objects.all()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
