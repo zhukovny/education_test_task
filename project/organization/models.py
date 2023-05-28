@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 
 
 class Department(models.Model):
@@ -13,6 +14,12 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_employees_count(self):
+        return self.employees.count()
+
+    def get_salary_summary(self):
+        return self.employees.aggregate(Sum('salary'))['salary__sum']
 
 
 class Employee(models.Model):
