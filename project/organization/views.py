@@ -21,10 +21,8 @@ class EmployeeListViewSet(viewsets.ModelViewSet):
         last_name = self.request.query_params.get('last_name')
         return Employee.filter_objects(department_id, last_name)
 
-
-class EmployeeDetailViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = EmployeeSerializer
+    def list(self, request, *args, **kwargs):
+        return super(EmployeeListViewSet, self).list(request, args, kwargs)
 
     def create(self, request: Request, *args, **kwargs) -> Response:
         serializer = self.get_serializer(request.data)
