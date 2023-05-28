@@ -4,21 +4,22 @@ from .views import DepartmentViewSet
 from .views import EmployeeViewSet
 
 
-employee_list = EmployeeViewSet.as_view({
+employee_api = EmployeeViewSet.as_view({
     'get': 'list',
     'post': 'create',
     'delete': 'destroy',
 })
 
 
-department_list = DepartmentViewSet.as_view({
+department_api = DepartmentViewSet.as_view({
     'get': 'list',
 })
 
 
 urlpatterns = [
-    path('employees/', employee_list, name='employee-list'),
-    path('employees/<int:department_id>', employee_list, name='employee-list'),
-    path('employees/<str:last_name>', employee_list, name='employee-list'),
-    path('departments/', department_list, name='department-list'),
+    path('employees/', employee_api, name='employee-api'),
+    path('employees/<int:pks>', employee_api, name='employee-api'),
+    path('employees/<str:last_name>', employee_api, name='employee-api'),
+    path('employees/<int:department_id>', employee_api, name='employee-api'),
+    path('departments/', department_api, name='department-api'),
 ]

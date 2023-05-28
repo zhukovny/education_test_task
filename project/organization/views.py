@@ -1,6 +1,8 @@
+from django.db.models import QuerySet
 from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import Department
@@ -12,19 +14,22 @@ from .serializers import EmployeeSerializer
 class EmployeeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = LimitOffsetPagination
+    serializer_class = EmployeeSerializer
 
-    def list(self, request, *args, **kwargs):
-        department_id = request.query_params.get('department_id')
-        last_name = request.query_params.get('last_name')
+    def get_queryset(self) -> QuerySet:
+        department_id = self.request.query_params.get('department_id')
+        last_name = self.request.query_params.get('last_name')
+        return Employee.filter_objects(department_id, last_name)
 
-        queryset = Employee.filter_objects(department_id, last_name)
-        page = self.paginate_queryset(queryset)
-        if page:
-            serializer = EmployeeSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+    def create(self, request: Request, *args, **kwargs) -> Response:
+        serializer = self.get_serializer(request.data)
+        Employee.objects.create(**serializer.data)
+        return Response()
 
-        serializer = EmployeeSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def destroy(self, request: Request, *args, **kwargs) -> Response:
+        pks = request.query_params.get('pk', [])
+        Employee.objects.filter(id__in=pks).delete()
+        return Response()
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):

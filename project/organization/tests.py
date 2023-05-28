@@ -279,3 +279,32 @@ class TestEmployeeViewSet(TestCase):
 
         # Assert
         self.assertEqual(response.status_code, HTTPStatus.OK)
+        employee = Employee.objects.filter(name='Nina Mihailovna').first()
+        self.assertIsNotNone(employee)
+
+    def test_destroy_employee(self):
+        # Arrange
+        accounting_department = Department.objects.create(name='Accounting Department')
+
+        data = {
+            'name': 'Nina Mihailovna',
+            'photo': '',
+            'position': 'Buhgalter',
+            'salary': 10000000.7,
+            'age': 49,
+            'department_id': accounting_department.id
+        }
+        employee = Employee.objects.create(**data)
+
+        username = 'testuser'
+        password = '12345'
+        User.objects.create_user(username=username, password=password)
+        self.client.login(username=username, password=password)
+
+        # Act
+        response = self.client.delete(f'{self.uri}?pk={employee.id}')
+
+        # Assert
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        employee = Employee.objects.filter(name='Nina Mihailovna').first()
+        self.assertIsNone(employee)

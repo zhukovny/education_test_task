@@ -1,4 +1,7 @@
+from typing import Optional
+
 from django.db import models
+from django.db.models import QuerySet
 from django.db.models import Sum
 
 
@@ -15,10 +18,10 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
-    def get_employees_count(self):
+    def get_employees_count(self) -> int:
         return self.employees.count()
 
-    def get_salary_summary(self):
+    def get_salary_summary(self) -> float:
         return self.employees.aggregate(Sum('salary'))['salary__sum']
 
 
@@ -34,7 +37,7 @@ class Employee(models.Model):
         unique_together = ('name', 'department')
 
     @classmethod
-    def filter_objects(cls, department_id, last_name):
+    def filter_objects(cls, department_id: Optional[int], last_name: Optional[str]) -> QuerySet:
         if department_id and last_name:
             return cls.objects.filter(department_id=int(department_id)).filter(name__endswith=last_name)
 
