@@ -2,7 +2,9 @@
 
 Install project:
 
-`poetry init`
+```
+poetry init
+```
 
 Run server:
 
