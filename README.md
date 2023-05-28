@@ -1,13 +1,11 @@
 # education_test_task
 
 Install project:
-
 ```
 poetry init
 ```
 
 Run server:
-
 ```
 cd project 
 poetry run manage.py runserver
