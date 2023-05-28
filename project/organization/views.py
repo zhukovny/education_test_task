@@ -11,7 +11,7 @@ from .serializers import DepartmentSerializer
 from .serializers import EmployeeSerializer
 
 
-class EmployeeViewSet(viewsets.ModelViewSet):
+class EmployeeListViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = LimitOffsetPagination
     serializer_class = EmployeeSerializer
@@ -20,6 +20,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         department_id = self.request.query_params.get('department_id')
         last_name = self.request.query_params.get('last_name')
         return Employee.filter_objects(department_id, last_name)
+
+
+class EmployeeDetailViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = EmployeeSerializer
 
     def create(self, request: Request, *args, **kwargs) -> Response:
         serializer = self.get_serializer(request.data)
