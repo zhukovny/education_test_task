@@ -34,8 +34,17 @@ class Employee(models.Model):
         unique_together = ('name', 'department')
 
     @classmethod
-    def filter_by_last_name(cls, last_name):
-        return cls.objects.filter(name__endswith=last_name)
+    def filter_objects(cls, department_id, last_name):
+        if department_id and last_name:
+            return cls.objects.filter(department_id=int(department_id)).filter(name__endswith=last_name)
+
+        if department_id:
+            return cls.objects.filter(department_id=int(department_id))
+
+        if last_name:
+            return cls.objects.filter(name__endswith=last_name)
+
+        return Employee.objects.all()
 
     def __str__(self):
         return self.name

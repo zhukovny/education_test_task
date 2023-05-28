@@ -18,5 +18,7 @@ department_list = DepartmentViewSet.as_view({
 
 urlpatterns = [
     path('employees/', employee_list, name='employee-list'),
+    path('employees/<int:department_id>', employee_list, name='employee-list'),
+    path('employees/<str:last_name>', employee_list, name='employee-list'),
     path('departments/', department_list, name='department-list'),
 ]
