@@ -21,14 +21,24 @@ class EmployeeListViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
     def get_queryset(self) -> QuerySet:
-        department_id = self.request.query_params.get('department_id')
-        last_name = self.request.query_params.get('last_name')
+        department_id = self.request.query_params.get("department_id")
+        last_name = self.request.query_params.get("last_name")
         return Employee.filter_objects(department_id, last_name)
 
     @extend_schema(
         parameters=[
-            OpenApiParameter(name='last_name', description='Filter by last_name', required=False, type=str),
-            OpenApiParameter(name='department_id', description='Filter by department_id', required=False, type=int),
+            OpenApiParameter(
+                name="last_name",
+                description="Filter by last_name",
+                required=False,
+                type=str,
+            ),
+            OpenApiParameter(
+                name="department_id",
+                description="Filter by department_id",
+                required=False,
+                type=int,
+            ),
         ],
     )
     def list(self, request: Request, *args, **kwargs) -> Response:
@@ -55,11 +65,13 @@ class EmployeeListViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         parameters=[
-            OpenApiParameter(name='pk', description='Employee id', required=True, type=int),
+            OpenApiParameter(
+                name="pk", description="Employee id", required=True, type=int
+            ),
         ]
     )
     def destroy(self, request: Request, *args, **kwargs) -> Response:
-        pks = request.query_params.get('pk', [])
+        pks = request.query_params.get("pk", [])
         Employee.objects.filter(id__in=pks).delete()
         return Response()
 
