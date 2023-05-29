@@ -18,7 +18,8 @@ class TestDepartmentViewSet(TestCase):
 
         employee_1 = Employee.objects.create(
             **{
-                'name': 'Pupa',
+                'first_name': 'Pupa',
+                'last_name': 'Pupin',
                 'photo': None,
                 'position': 'Dev',
                 'salary': 100500.65,
@@ -28,7 +29,8 @@ class TestDepartmentViewSet(TestCase):
         )
         employee_2 = Employee.objects.create(
             **{
-                'name': 'Lupa',
+                'first_name': 'Lupa',
+                'last_name': 'Lupin',
                 'photo': None,
                 'position': 'Dev',
                 'salary': 500100.10,
@@ -38,7 +40,8 @@ class TestDepartmentViewSet(TestCase):
         )
         employee_3 = Employee.objects.create(
             **{
-                'name': 'Nina Mihailovna',
+                'first_name': 'Nina Mihailovna',
+                'last_name': 'Chernaya',
                 'photo': None,
                 'position': 'Buhgalter',
                 'salary': 10000000.7,
@@ -57,7 +60,8 @@ class TestDepartmentViewSet(TestCase):
                 'employees': [
                     {
                         'id': employee_1.id,
-                        'name': 'Pupa',
+                        'first_name': 'Pupa',
+                        'last_name': 'Pupin',
                         'photo': None,
                         'position': 'Dev',
                         'salary': '100500.65',
@@ -66,7 +70,8 @@ class TestDepartmentViewSet(TestCase):
                     },
                     {
                         'id': employee_2.id,
-                        'name': 'Lupa',
+                        'first_name': 'Lupa',
+                        'last_name': 'Lupin',
                         'photo': None,
                         'position': 'Dev',
                         'salary': '500100.10',
@@ -84,7 +89,8 @@ class TestDepartmentViewSet(TestCase):
                 'employees': [
                     {
                         'id': employee_3.id,
-                        'name': 'Nina Mihailovna',
+                        'first_name': 'Nina Mihailovna',
+                        'last_name': 'Chernaya',
                         'photo': None,
                         'position': 'Buhgalter',
                         'salary': '10000000.70',
@@ -123,7 +129,8 @@ class TestEmployeeViewSet(TestCase):
         for i in range(10):
             Employee.objects.create(
                 **{
-                    'name': f'Employee #{i}',
+                    'first_name': f'Employee #{i}',
+                    'last_name': '',
                     'photo': None,
                     'position': 'dev',
                     'salary': 100500,
@@ -155,7 +162,8 @@ class TestEmployeeViewSet(TestCase):
 
         employee_1 = Employee.objects.create(
             **{
-                'name': 'Pupa Pupin',
+                'first_name': 'Pupa',
+                'last_name': 'Pupin',
                 'photo': None,
                 'position': 'Dev',
                 'salary': 100500.65,
@@ -165,7 +173,8 @@ class TestEmployeeViewSet(TestCase):
         )
         employee_2 = Employee.objects.create(
             **{
-                'name': 'Lupa Lupin',
+                'first_name': 'Lupa',
+                'last_name': 'Lupin',
                 'photo': None,
                 'position': 'Dev',
                 'salary': 500100.10,
@@ -175,7 +184,8 @@ class TestEmployeeViewSet(TestCase):
         )
         employee_3 = Employee.objects.create(
             **{
-                'name': 'Nina Mihailovna',
+                'first_name': 'Nina Mihailovna',
+                'last_name': 'Chernaya',
                 'photo': None,
                 'position': 'Buhgalter',
                 'salary': 10000000.7,
@@ -190,7 +200,8 @@ class TestEmployeeViewSet(TestCase):
                 [
                     {
                         'id': employee_1.id,
-                        'name': 'Pupa Pupin',
+                        'first_name': 'Pupa',
+                        'last_name': 'Pupin',
                         'photo': None,
                         'position': 'Dev',
                         'salary': '100500.65',
@@ -199,7 +210,8 @@ class TestEmployeeViewSet(TestCase):
                     },
                     {
                         'id': employee_2.id,
-                        'name': 'Lupa Lupin',
+                        'first_name': 'Lupa',
+                        'last_name': 'Lupin',
                         'photo': None,
                         'position': 'Dev',
                         'salary': '500100.10',
@@ -209,11 +221,12 @@ class TestEmployeeViewSet(TestCase):
                 ]
             ),
             (
-                f'{self.uri}?last_name=Mihailovna',
+                f'{self.uri}?last_name=Chernaya',
                 [
                     {
                         'id': employee_3.id,
-                        'name': 'Nina Mihailovna',
+                        'first_name': 'Nina Mihailovna',
+                        'last_name': 'Chernaya',
                         'photo': None,
                         'position': 'Buhgalter',
                         'salary': '10000000.70',
@@ -227,7 +240,8 @@ class TestEmployeeViewSet(TestCase):
                 [
                     {
                         'id': employee_2.id,
-                        'name': 'Lupa Lupin',
+                        'first_name': 'Lupa',
+                        'last_name': 'Lupin',
                         'photo': None,
                         'position': 'Dev',
                         'salary': '500100.10',
@@ -261,7 +275,8 @@ class TestEmployeeViewSet(TestCase):
         accounting_department = Department.objects.create(name='Accounting Department')
 
         data = {
-            'name': 'Nina Mihailovna',
+            'first_name': 'Nina Mihailovna',
+            'last_name': 'Chernaya',
             'photo': '',
             'position': 'Buhgalter',
             'salary': 10000000.7,
@@ -279,7 +294,7 @@ class TestEmployeeViewSet(TestCase):
 
         # Assert
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        employee = Employee.objects.filter(name='Nina Mihailovna').first()
+        employee = Employee.objects.filter(first_name='Nina Mihailovna').first()
         self.assertIsNotNone(employee)
 
     def test_destroy_employee(self):
@@ -287,7 +302,8 @@ class TestEmployeeViewSet(TestCase):
         accounting_department = Department.objects.create(name='Accounting Department')
 
         data = {
-            'name': 'Nina Mihailovna',
+            'first_name': 'Nina Mihailovna',
+            'last_name': 'Chernaya',
             'photo': '',
             'position': 'Buhgalter',
             'salary': 10000000.7,
@@ -306,5 +322,5 @@ class TestEmployeeViewSet(TestCase):
 
         # Assert
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        employee = Employee.objects.filter(name='Nina Mihailovna').first()
+        employee = Employee.objects.filter(first_name='Nina Mihailovna').first()
         self.assertIsNone(employee)

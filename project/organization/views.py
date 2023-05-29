@@ -38,7 +38,8 @@ class EmployeeListViewSet(viewsets.ModelViewSet):
         request=inline_serializer(
             name="InlineCreateEmployeeSerializer",
             fields={
-                "name": serializers.CharField(),
+                "first_name": serializers.CharField(),
+                "last_name": serializers.CharField(),
                 "photo": serializers.ImageField(),
                 "position": serializers.CharField(),
                 "salary": serializers.DecimalField(max_digits=10, decimal_places=2),

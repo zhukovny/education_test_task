@@ -26,7 +26,8 @@ class Department(models.Model):
 
 
 class Employee(models.Model):
-    name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
     photo = models.ImageField(upload_to='employee_photos', null=True, blank=True)
     position = models.CharField(max_length=50)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
@@ -34,20 +35,23 @@ class Employee(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='employees')
 
     class Meta:
-        unique_together = ('name', 'department')
+        unique_together = ('id', 'department')
+        indexes = [
+            models.Index(fields=['last_name', 'first_name']),
+        ]
 
     @classmethod
     def filter_objects(cls, department_id: Optional[int], last_name: Optional[str]) -> QuerySet:
         if department_id and last_name:
-            return cls.objects.filter(department_id=int(department_id)).filter(name__endswith=last_name)
+            return cls.objects.filter(department_id=int(department_id)).filter(last_name__contains=last_name)
 
         if department_id:
             return cls.objects.filter(department_id=int(department_id))
 
         if last_name:
-            return cls.objects.filter(name__endswith=last_name)
+            return cls.objects.filter(last_name__contains=last_name)
 
         return Employee.objects.all()
 
     def __str__(self) -> str:
-        return self.name
+        return f'{self.first_name} {self.last_name}'
